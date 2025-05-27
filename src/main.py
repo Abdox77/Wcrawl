@@ -11,7 +11,7 @@ class DDscraper(BaseScraper):
         return data
 
 if __name__ == "__main__":
-    url = "https://scrapeMe.com"
+    url = "https://books.toscrape.com/"
     scraper = DDscraper(
         start_url = url,
         max_pages = 5,

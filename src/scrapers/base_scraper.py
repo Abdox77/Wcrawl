@@ -3,7 +3,7 @@ import time
 from typing import List, Set, Dict, Any, Optional
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
-from ..utils.html_parser import get_group, extract_links
+from utils.html_parser import get_soup, extract_links
 
 
 class BaseScraper:

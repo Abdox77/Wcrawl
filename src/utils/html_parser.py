@@ -1,9 +1,9 @@
 from bs4 import BeautifulSoup
 import requests
-from typing import Otional, Dict, Any
+from typing import Optional, Dict, Any
 
 
-def get_group(url: str, headers: Optional[Dict[str, str]] = None) -> BeautifulSoup:
+def get_soup(url: str, headers: Optional[Dict[str, str]] = None) -> BeautifulSoup:
     """
     Fetch a web page and return a BeatifulSoup object
 
