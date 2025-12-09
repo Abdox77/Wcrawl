@@ -10,6 +10,8 @@ class DDscraper(BaseScraper):
         data["p_count"] = len(soup.find_all('p'))
         return data
 
+
+
 if __name__ == "__main__":
     url = "https://books.toscrape.com/"
     scraper = DDscraper(

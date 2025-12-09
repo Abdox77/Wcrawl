@@ -40,7 +40,7 @@ def extract_links(soup: BeautifulSoup, base_url: str = "") -> list[str]:
     links = []
     for a_tag in soup.find_all('a', href=True):
         href = a_tag['href']
-        if href.startwith('http'):
+        if href.startswith('http'):
             links.append(href)
         elif base_url and href.startswith('/'):
             links.append(f"{base_url.rstrip('/')}{href}")

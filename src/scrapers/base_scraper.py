@@ -12,7 +12,7 @@ class BaseScraper:
                 max_pages: int = 10,
                 delay: float = 1.0,
                 same_domain_only: bool = True,
-                output_dir: str = "../data/output") :
+                output_dir: str = "data/output") :
         """
         Initialze the base scraper
 
@@ -37,6 +37,24 @@ class BaseScraper:
         self.urls_to_visit: List[str] = [start_url]
         self.data: List[Dict[str, Any]] = []
 
+    def process_page(self, url: str, soup: BeautifulSoup) -> Dict[str, Any]:
+        """
+        Process a page and extract data.
+        Override this method in subclasses for custom extraction.
+
+        Args:
+            url: The URL of the page
+            soup: BeautifulSoup object of the page
+
+        Returns:
+            Dictionary containing extracted data
+        """
+        return {
+            "url": url,
+           "title": soup.title.string if soup.title else "",
+            "links_count": len(soup.find_all('a'))
+        }
+
     def crawl(self) -> List[Dict[str,Any]]:
         """
         Starts the crawling process
@@ -60,7 +78,7 @@ class BaseScraper:
 
                 links = extract_links(soup, self.start_url)
 
-                if self.name_domain_only:
+                if self.same_domain_only:
                     links = [links for link in links if urlparse(link).netloc == self.domain]
                 
                 for link in links:
@@ -71,21 +89,21 @@ class BaseScraper:
                 count += 1
                 time.sleep(self.delay)
             except Exception as err:
-                print(f'Error crawling {url}: {e}')
+                print(f'Error crawling {url}: {err}')
         
         return self.data
 
 
-def save_data(self, filename: str= "crawled_data.txt") -> None:
-    """
-    Save the crawled data to a file
+    def save_data(self, filename: str= "crawled_data.txt") -> None:
+        """
+        Save the crawled data to a file
 
-    Args:
-        filename: Name of the file to save data
-    """
-    os.makedirs(self.output_dir, exist_ok=True)
-    output_path = os.path.join(self.output_dir, filename)
-    with open(output_path, 'w', encoding='utf-8') as f:
-        for item in self.data:
-            f.write(f"{str(item)}\n")
-    print(f"Data saved to {output_path}")
+        Args:
+            filename: Name of the file to save data
+        """
+        os.makedirs(self.output_dir, exist_ok=True)
+        output_path = os.path.join(self.output_dir, filename)
+        with open(output_path, 'w', encoding='utf-8') as f:
+            for item in self.data:
+                f.write(f"{str(item)}\n") 
+        print(f"Data saved to {output_path}")
